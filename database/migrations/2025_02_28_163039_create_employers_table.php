@@ -9,12 +9,9 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('job_listings', function (Blueprint $table) {
+        Schema::create('employers', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->foreignIdFor(App\Models\Employer::class);
-            $table->double('salary');
-            $table->string('description');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -23,6 +20,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void {
-        Schema::dropIfExists('job_listings');
+        Schema::dropIfExists('employers');
     }
 };
