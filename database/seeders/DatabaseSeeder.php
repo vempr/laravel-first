@@ -15,7 +15,14 @@ class DatabaseSeeder extends Seeder {
      */
     public function run(): void {
         $users = User::factory(5)->create();
-        $employers = Employer::factory(5)->recycle($users)->create();
+
+        $employers = collect();
+        foreach ($users as $user) {
+            $employers->push(Employer::factory()->create([
+                'user_id' => $user->id
+            ]));
+        }
+
         Job::factory(30)->recycle($employers)->create();
     }
 }

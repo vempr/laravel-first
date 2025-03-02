@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Job;
+use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller {
     public function index() {
@@ -25,7 +26,7 @@ class JobController extends Controller {
             'title' => request('title'),
             'description' => request('description'),
             'salary' => request('salary'),
-            'employer_id' => 1,
+            'employer_id' => Auth::id(),
         ]);
 
         return redirect('/jobs');
