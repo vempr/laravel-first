@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class SessionController extends Controller {
     public function create() {
@@ -10,6 +11,25 @@ class SessionController extends Controller {
     }
 
     public function store() {
-        dd(request()->all());
+        $userAttributes = request()->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (!Auth::attempt($userAttributes)) {
+            throw ValidationException::withMessages([
+                "message" => "Invalid credentials provided."
+            ]);
+        }
+
+        request()->session()->regenerate();
+
+        return redirect('/jobs');
+    }
+
+    public function destroy() {
+        Auth::logout();
+
+        return redirect('/');
     }
 }
